@@ -1,0 +1,7 @@
+name: 'Webform Geonames'
+type: module
+description: 'Webform address composite element using geonames API'
+core: 8.x
+package: 'Webform'
+dependencies:
+  - webform
