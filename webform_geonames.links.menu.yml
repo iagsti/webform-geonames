@@ -1,0 +1,7 @@
+webform_geonames.webform_geonames_settings_form:
+  title: 'Webform Geonames'
+  route_name: webform_geonames.webform_geonames_settings_form
+  description: 'Webform Geonames Settings'
+  parent: system.admin_config_services
+  weight: 99
+
