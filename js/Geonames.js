@@ -4,7 +4,7 @@ class Geonames {
 
   constructor (geonamesLogin) {
     
-    this.geonamesLogin = geonamesLogin;
+    this.login = geonamesLogin;
 
   }
 
@@ -35,14 +35,14 @@ class Geonames {
   _makeRequest(actions, resource, geonameId) {
 
     let geonameIdParameter = geonameId ? 'geonameId=' + geonameId : '';
-    let loginParameter = this.geonamesLogin ? '&username=' + this.geonamesLogin : '';
+    let loginParameter = this.login ? '&username=' + this.login : '';
     let query = '?';
 
     (function ($) {
         $.get(API + resource + query + geonameIdParameter + loginParameter, function (response) {
             actions(response);
         });
-    });
+    }(jQuery));
 
   }
 
