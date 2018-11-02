@@ -17,12 +17,16 @@ class WebformGeonamesComposite extends WebformCompositeBase {
    * {@inheritDoc}
    */
   public function getInfo() {
+
     $info = parent::getInfo() + [
       '#theme' => 'webform_geonames_composite',
-         '#attached' => [
-         'library' => [],
+      '#attached' => [
+         'library' => [
+            'webform_geonames/webform_geonames_composite'
+          ],
         ]
     ];
+
     return $info;
   }
 
@@ -43,6 +47,7 @@ class WebformGeonamesComposite extends WebformCompositeBase {
     $elements['country'] = [
       '#type' => 'select',
       '#title' => t('País'),
+      '#attributes' => ['class' => ['webform-geonames-composite--country']]
     ];
 
     $elements['state'] = [
