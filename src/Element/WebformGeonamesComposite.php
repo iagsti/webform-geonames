@@ -18,12 +18,17 @@ class WebformGeonamesComposite extends WebformCompositeBase {
    */
   public function getInfo() {
 
+    $geonamesLogin = \Drupal::config('webform_geonames.webformgeonamessettings')->get('geonames_web_service_login');
+
     $info = parent::getInfo() + [
       '#theme' => 'webform_geonames_composite',
       '#attached' => [
          'library' => [
             'webform_geonames/webform_geonames_composite'
           ],
+          'drupalSettings' => [
+            'webform_geonames' => ['geonames_login' => $geonamesLogin]
+          ]
         ]
     ];
 
@@ -53,16 +58,19 @@ class WebformGeonamesComposite extends WebformCompositeBase {
     $elements['state'] = [
       '#type' => 'select',
       '#title' => t('Estado'),
+      '#attributes' => ['class' => ['webform-geonames-composite--state']]
     ];
 
     $elements['city'] = [
       '#type' => 'select',
       '#title' => t('Cidade'),
+      '#attributes' => ['class' => ['webform-geonames-composite--city']]
     ];
 
     $elements['neighbor'] = [
       '#type' => 'select',
-      '#title' => t('Bairro')
+      '#title' => t('Bairro'),
+      '#attributes' => ['class' => ['webform-geonames-composite--neighbor']]
     ];
 
     return $elements;
