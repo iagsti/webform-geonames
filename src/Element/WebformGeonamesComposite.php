@@ -67,12 +67,6 @@ class WebformGeonamesComposite extends WebformCompositeBase {
       '#attributes' => ['class' => ['webform-geonames-composite--city']]
     ];
 
-    $elements['neighbor'] = [
-      '#type' => 'select',
-      '#title' => t('Bairro'),
-      '#attributes' => ['class' => ['webform-geonames-composite--neighbor']]
-    ];
-
     return $elements;
   }
 
