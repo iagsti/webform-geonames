@@ -14,7 +14,7 @@ class Geonames {
 
   }
 
-  getSatateList (actions, countryGeonameId) {
+  getStateList (actions, countryGeonameId) {
 
     this._makeRequest(actions, 'childrenJSON', countryGeonameId)
 
@@ -23,12 +23,6 @@ class Geonames {
   getCityList (actions, stateGeonameId) {
 
     this._makeRequest(actions, 'childrenJSON', stateGeonameId);
-
-  }
-
-  getNeighborList (actions, cityGeonameId) {
-
-    this._makeRequest(actions, 'childrenJSON', cityGeonameId);
 
   }
 
