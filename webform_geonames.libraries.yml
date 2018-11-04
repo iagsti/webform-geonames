@@ -1,0 +1,9 @@
+webform_geonames_composite:
+  version: 1.x
+  js:
+    js/Geonames.js: {}
+    js/SelectField.js: {}
+    js/webform-geonames-composite.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once

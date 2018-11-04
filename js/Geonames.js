@@ -4,7 +4,7 @@ class Geonames {
 
   constructor (geonamesLogin) {
     
-    this.geonamesLogin = geonamesLogin;
+    this.login = geonamesLogin;
 
   }
 
@@ -14,7 +14,7 @@ class Geonames {
 
   }
 
-  getSatateList (actions, countryGeonameId) {
+  getStateList (actions, countryGeonameId) {
 
     this._makeRequest(actions, 'childrenJSON', countryGeonameId)
 
@@ -26,23 +26,17 @@ class Geonames {
 
   }
 
-  getNeighborList (actions, cityGeonameId) {
-
-    this._makeRequest(actions, 'childrenJSON', cityGeonameId);
-
-  }
-
   _makeRequest(actions, resource, geonameId) {
 
     let geonameIdParameter = geonameId ? 'geonameId=' + geonameId : '';
-    let loginParameter = this.geonamesLogin ? '&username=' + this.geonamesLogin : '';
+    let loginParameter = this.login ? '&username=' + this.login : '';
     let query = '?';
 
     (function ($) {
         $.get(API + resource + query + geonameIdParameter + loginParameter, function (response) {
             actions(response);
         });
-    });
+    }(jQuery));
 
   }
 
