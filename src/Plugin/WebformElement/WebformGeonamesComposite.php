@@ -34,8 +34,14 @@ class WebformGeonamesComposite extends WebformCompositeBase {
    */
   protected function formatTextItemValue(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
     $value = $this->getValue($element, $webform_submission, $options);
-
-    return [];
+    
+    $lines = [];
+    
+    $lines['country'] = $value['country'] ? $value['country'] : '';
+    $lines['state'] = $value['state'] ? $value['state'] : '';
+    $lines['city'] = $value['city'] ? $value['city'] : '';
+ 
+    return $lines;
   }
 
 }
