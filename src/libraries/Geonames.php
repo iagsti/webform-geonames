@@ -23,7 +23,9 @@ class Geonames {
     $response =  $this->makeRequest($resource);
     $options = $this->generateOptions('countryName', 'countryName', $response->geonames);
 
-    return $options;
+    $matchingOtions = $this->generateOptions('conutryName', 'geonameId', $response->geonames);
+
+    return ['options' => $options, 'matchingOptions' => $matchingOtions];
 
   }
 
