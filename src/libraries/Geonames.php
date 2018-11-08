@@ -23,7 +23,7 @@ class Geonames {
     $response =  $this->makeRequest($resource);
     $options = $this->generateOptions('countryName', 'countryName', $response->geonames);
 
-    $matchingOtions = $this->generateOptions('countryName', 'geonameId', $response->geonames);
+    $matchingOtions = $this->generateOptions('countryCode', 'geonameId', $response->geonames);
 
     return ['options' => $options, 'matchingOptions' => $matchingOtions];
 
@@ -43,6 +43,12 @@ class Geonames {
   }
 
   public function getStateList($countryGeonameId) {
+
+    if (!isset($countryGeonameId)) {
+
+      $countryGeonameId = '3469034';
+
+    }
 
     $resource = $this->makeResource($countryGeonameId, 'childrenJSON');
     $response = $this->makeRequest($resource);
@@ -93,14 +99,15 @@ class Geonames {
 
   protected function generateOptions($key, $value, array $data) {
 
-    $options = array_map(function($item) use ($key, $value) {
-      
-      $option[$item->{$key}] = $item->{$value};
-      return $option;
-
+    $keys = array_map(function($item) use ($key) {
+      return $item->{$key};
     }, $data);
 
-    return $options;
+    $values = array_map(function($item) use ($value) {
+      return $item->{$value};
+    }, $data);
+
+    return array_combine($keys, $values);
 
   }
 
