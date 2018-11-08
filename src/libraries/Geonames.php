@@ -49,11 +49,18 @@ class Geonames {
 
   public function getCityList($stateGeonameId) {
 
-    $resource = $this->makeResource($stateGeonameId, 'childrenJSON');
-    $response = $this->makeRequest($resource);
-    $options = $this->generateOptions('toponymName', $response->geonames);
+    if (isset($stateGeonameId)) {
 
-    return $options;
+      $resource = $this->makeResource($stateGeonameId, 'childrenJSON');
+      $response = $this->makeRequest($resource);
+      $options = $this->generateOptions('toponymName', 'toponymName', $response->geonames);
+      $matchingOtions = $this->generateOptions('toponymName', 'geonameId', $response->geonames);
+
+      return ['options' => $options, 'matchingOptions' => $matchingOtions];
+
+    }
+
+    return ['options' => [], 'matchingOptions' => []];
 
   }
 
