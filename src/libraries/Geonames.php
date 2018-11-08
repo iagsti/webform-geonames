@@ -21,7 +21,7 @@ class Geonames {
 
     $resource = $this->makeResource(null, 'countryInfoJSON');
     $response =  $this->makeRequest($resource);
-    $options = $this->generateOptions('countryName', $response->geonames);
+    $options = $this->generateOptions('countryName', 'countryName', $response->geonames);
 
     return $options;
 
