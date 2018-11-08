@@ -63,6 +63,15 @@ class WebformGeonamesComposite extends WebformCompositeBase {
       '#type' => 'select',
       '#title' => t('Estado'),
       '#validated' => TRUE,
+      '#ajax' => [
+        'callback' => 'Drupal\webform_geonames\Form\GeonamesForm::getCityListAjax',
+        'event' => 'change',
+        'wrapper' => 'webform-geonames-edit-city',
+        'progress' => [
+          'type' => 'throbber',
+          'mssage' => t('Carregando...')
+        ]
+      ],
       '#wrapper_attributes' => ['id' => 'webform-geonames-edit-state']
     ];
 
