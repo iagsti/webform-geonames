@@ -94,7 +94,7 @@ class Geonames {
 
     $options = array_map(function($item) use ($key, $value) {
       $options['key'] = $item->{$key};
-      $options['value'] = $item{$value};
+      $options['value'] = $item->{$value};
 
       return $options;
 
