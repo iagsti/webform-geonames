@@ -29,19 +29,6 @@ class Geonames {
 
   }
 
-  public function getStateListByCountryName($countryCode) {
-
-    $resource = $this->makeResource(null, 'countryInfoJSON');
-    $resource .= '&country=' . $countryCode;
-    $country = $this->makeRequest($resource);
-    $countryGeonameId = $this->getGeonameId($country);
-
-    $stateOptions = $this->getStateList($countryGeonameId);
-    
-    return $stateOptions;
-
-  }
-
   public function getStateList($countryGeonameId) {
 
     if (!isset($countryGeonameId)) {
