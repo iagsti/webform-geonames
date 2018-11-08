@@ -25,9 +25,12 @@ class GeonamesForm {
     $state = $form['elements'][$elementName]['state'];
     $stateId = '#' . $state['#wrapper_attributes']['id'];
 
-    $stateOptions = self::getGeonamesInstance()->getStateListByCountryName($values['country']);
+    $geonameId = self::getState($values['country']);
 
-    $state['#options'] += $stateOptions;
+    $stateOptions = self::getGeonamesInstance()->getStateList($geonameId);
+    self::saveState($stateOptions['matchingOptions']);
+    $state['#options'] += $stateOptions['options'];
+
 
     $renderer = \Drupal::service('renderer');
     $response = new AjaxResponse();
@@ -35,6 +38,26 @@ class GeonamesForm {
     return $response;
 
   }
+
+
+  public static function getCityListAjax (array &$form, FormStateInterface $form_state) : AjaxResponse {
+
+    $elementName = self::getElementName($form_state);
+    $values = self::getValues($form_state);
+    $city = $form['elements'][$elementName]['city'];
+    $cityId = '#' . $city['#wrapper_attributes']['id'];
+    $geonameId = self::getState($values['state']);
+
+    $cityOptions = self::getGeonamesInstance()->getCityList($geonameId);
+    $city['#options'] += $cityOptions['options'];
+
+    $renderer = \Drupal::service('renderer');
+    $response = new AjaxResponse();
+    $response->addCommand(new ReplaceCommand($cityId, $renderer->render($city)));
+    return $response;
+    
+  }
+
 
   public static function getGeonamesInstance () {
 

@@ -2,7 +2,9 @@
 
 namespace Drupal\webform_geonames\Element;
 
+use Drupal\Component\Utility\Html;
 use Drupal\webform\Element\WebformCompositeBase;
+use Drupal\webform_geonames\Form\GeonamesForm;
 
 
 /**
@@ -22,14 +24,6 @@ class WebformGeonamesComposite extends WebformCompositeBase {
 
     $info = parent::getInfo() + [
       '#theme' => 'webform_geonames_composite',
-      '#attached' => [
-         'library' => [
-            'webform_geonames/webform_geonames_composite'
-          ],
-          'drupalSettings' => [
-            'webform_geonames' => ['geonames_login' => $geonamesLogin]
-          ]
-        ]
     ];
 
     return $info;
@@ -48,23 +42,34 @@ class WebformGeonamesComposite extends WebformCompositeBase {
   public static function getCompositeElements(array $elements)
   {
     $elements = [];
+    $htmlId = Html::getUniqueId('webform-geonames');
 
     $elements['country'] = [
       '#type' => 'select',
       '#title' => t('País'),
-      '#attributes' => ['class' => ['webform-geonames-composite--country']]
+      '#options' => GeonamesForm::getCountryList(),
+      '#ajax' => [
+        'callback' => 'Drupal\webform_geonames\Form\GeonamesForm::getStateListAjax',
+        'event' => 'change',
+        'wrapper' => 'webform-geonames-edit-state',
+        'progress' => [
+          'type' => 'throbber',
+          'message' => t('Carregando...'),
+        ],
+      ],
     ];
 
     $elements['state'] = [
       '#type' => 'select',
       '#title' => t('Estado'),
-      '#attributes' => ['class' => ['webform-geonames-composite--state']]
+      '#validated' => TRUE,
+      '#wrapper_attributes' => ['id' => 'webform-geonames-edit-state']
     ];
 
     $elements['city'] = [
       '#type' => 'select',
       '#title' => t('Cidade'),
-      '#attributes' => ['class' => ['webform-geonames-composite--city']]
+      '#attributes' => ['id' => ['webform-geonames-edit-city']]
     ];
 
     return $elements;
