@@ -23,7 +23,7 @@ class Geonames {
     $response =  $this->makeRequest($resource);
     $options = $this->generateOptions('countryName', 'countryName', $response->geonames);
 
-    $matchingOtions = $this->generateOptions('conutryName', 'geonameId', $response->geonames);
+    $matchingOtions = $this->generateOptions('countryName', 'geonameId', $response->geonames);
 
     return ['options' => $options, 'matchingOptions' => $matchingOtions];
 
@@ -47,9 +47,10 @@ class Geonames {
     $resource = $this->makeResource($countryGeonameId, 'childrenJSON');
     $response = $this->makeRequest($resource);
 
-    $options = $this->generateOptions('toponymName', $response->geonames);
+    $options = $this->generateOptions('toponymName', 'toponymName', $response->geonames);
+    $matchingOtions = $this->generateOptions('toponymName', 'geonameId', $response->geonames);
 
-    return $options;
+    return ['options' => $options, 'matchingOptions' => $matchingOtions];
 
   }
 
