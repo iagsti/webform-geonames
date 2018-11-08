@@ -24,11 +24,13 @@ class GeonamesForm {
     $values = self::getValues($form_state);
     $state = $form['elements'][$elementName]['state'];
     $stateId = '#' . $state['#wrapper_attributes']['id'];
+
     $geonameId = self::getState($values['country']);
 
     $stateOptions = self::getGeonamesInstance()->getStateList($geonameId);
     self::saveState($stateOptions['matchingOptions']);
     $state['#options'] += $stateOptions['options'];
+
 
     $renderer = \Drupal::service('renderer');
     $response = new AjaxResponse();
@@ -36,6 +38,7 @@ class GeonamesForm {
     return $response;
 
   }
+
 
   public static function getCityListAjax (array &$form, FormStateInterface $form_state) : AjaxResponse {
 
@@ -54,6 +57,7 @@ class GeonamesForm {
     return $response;
     
   }
+
 
   public static function getGeonamesInstance () {
 
