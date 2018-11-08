@@ -88,13 +88,17 @@ class Geonames {
 
   }
 
-  protected function generateOptions($key, array $data) {
+  protected function generateOptions($key, $value, array $data) {
 
-    $options = array_map(function($item) use ($key) {
-      return $item->{$key};
+    $options = array_map(function($item) use ($key, $value) {
+      $options['key'] = $item->{$key};
+      $options['value'] = $item{$value};
+
+      return $options;
+
     }, $data);
 
-    return array_combine($options, $options);
+    return array_combine($options['key'], $options['value']);
 
   }
 
