@@ -49,7 +49,7 @@ class WebformGeonamesComposite extends WebformCompositeBase {
       '#title' => t('País'),
       '#options' => GeonamesForm::getCountryList(),
       '#ajax' => [
-        'callback' => 'Drupal\webform_geonames\Form\GeonamesForm::getStateListAjax',
+        'callback' => '\Drupal\webform_geonames\Form\GeonamesForm::getStateListAjax',
         'event' => 'change',
         'wrapper' => 'webform-geonames-edit-state',
         'progress' => [
@@ -62,14 +62,25 @@ class WebformGeonamesComposite extends WebformCompositeBase {
     $elements['state'] = [
       '#type' => 'select',
       '#title' => t('Estado'),
-      '#validated' => TRUE,
+      '#options' => ['Exemplo' => 'Exwmplo'],
+      '#validated' => true,
+      '#ajax' => [
+        'callback' => '\Drupal\webform_geonames\Form\GeonamesForm::getCityListAjax',
+        'event' => 'change',
+        'wrapper' => 'webform-geonames-edit-city',
+        'progress' => [
+          'type' => 'throbber',
+          'message' => t('Carregando...')
+        ]
+      ],
       '#wrapper_attributes' => ['id' => 'webform-geonames-edit-state']
     ];
 
     $elements['city'] = [
       '#type' => 'select',
+      '#validated' => true,
       '#title' => t('Cidade'),
-      '#attributes' => ['id' => ['webform-geonames-edit-city']]
+      '#wrapper_attributes' => ['id' => ['webform-geonames-edit-city']]
     ];
 
     return $elements;
