@@ -33,21 +33,17 @@ class GeonamesForm {
 
   }
 
-  public static function getCityListAjax (array &$form, FormStateInterface $form_state) : AjaxResponse {
+  public static function getCityListAjax (array &$form, FormStateInterface $form_state) : array {
 
     $elementName = self::getElementName($form_state);
     $values = self::getValues($form_state);
     $city = $form['elements'][$elementName]['city'];
-    $cityId = '#' . $city['#wrapper_attributes']['id'];
-    $geonameId = self::getState($values['state']);
-
-    $cityOptions = self::getGeonamesInstance()->getCityList($geonameId);
+    
+    $geonameId = self::getState('states_geoname_id');
+    $cityOptions = self::getGeonamesInstance()->getCityList($geonameId[$values['state']]);
     $city['#options'] += $cityOptions['options'];
 
-    $renderer = \Drupal::service('renderer');
-    $response = new AjaxResponse();
-    $response->addCommand(new ReplaceCommand($cityId, $renderer->render($city)));
-    return $response;
+    return $city;
     
   }
 
@@ -85,7 +81,6 @@ class GeonamesForm {
   }
 
   protected static function getState($key) {
-
     $config = \Drupal::config('webform_geonames.settings');
     $configuration = 'webform_geonames.' . $key;
 
