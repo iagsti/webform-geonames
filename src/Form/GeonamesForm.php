@@ -12,33 +12,26 @@ class GeonamesForm {
   public static function getCountryList() {
 
     $countries = self::getGeonamesInstance()->getCountryList();
-    self::saveState($countries['matchingOptions']);
+    self::saveState($countries['matchingOptions'], 'countries_geoname_id');
 
     return $countries['options'];
 
   }
 
-  public static function getStateListAjax(array &$form, FormStateInterface $form_state) : AjaxResponse {
+  public static function getStateListAjax(array &$form, FormStateInterface $form_state) : array {
 
     $elementName = self::getElementName($form_state);
     $values = self::getValues($form_state);
     $state = $form['elements'][$elementName]['state'];
-    $stateId = '#' . $state['#wrapper_attributes']['id'];
+    $geonameId = self::getState('countries_geoname_id');
 
-    $geonameId = self::getState($values['country']);
-
-    $stateOptions = self::getGeonamesInstance()->getStateList($geonameId);
-    self::saveState($stateOptions['matchingOptions']);
+    $stateOptions = self::getGeonamesInstance()->getStateList($geonameId[$values['country']]);
     $state['#options'] += $stateOptions['options'];
+    self::saveState($stateOptions['matchingOptions'], 'states_geoname_id');
 
-
-    $renderer = \Drupal::service('renderer');
-    $response = new AjaxResponse();
-    $response->addCommand(new ReplaceCommand($stateId, $renderer->render($state)));
-    return $response;
+    return $state;
 
   }
-
 
   public static function getCityListAjax (array &$form, FormStateInterface $form_state) : AjaxResponse {
 
@@ -84,15 +77,19 @@ class GeonamesForm {
 
   }
 
-  protected static function saveState(array $data) {
-    
-    \Drupal::state()->setMultiple($data);
-
+  protected static function saveState(array $data, $configuration) {
+    $config = \Drupal::service('config.factory')->getEditable('webform_geonames.settings');
+    $configurationItem = 'webform_geonames.' . $configuration;
+    $config->set($configurationItem, $data);
+    $config->save();
   }
 
   protected static function getState($key) {
 
-    return \Drupal::state()->get($key);
+    $config = \Drupal::config('webform_geonames.settings');
+    $configuration = 'webform_geonames.' . $key;
+
+    return $config->get($configuration);
 
   }
 
